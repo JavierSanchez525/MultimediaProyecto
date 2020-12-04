@@ -53,4 +53,10 @@ public class escribirJSON {
 		
 		return actores;
 	}
+	
+	public static String getDescipcion (Document doc) throws IOException {
+		String descripcion = doc.select("div.summary_text").text();
+		return descripcion;
+	}
+	
 }
