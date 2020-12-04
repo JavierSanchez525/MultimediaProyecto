@@ -55,12 +55,14 @@ public class leerExcel {
 			String [] GenerosYKeyWords = new String [2];
 			GenerosYKeyWords = escribirJSON.getGenerosYKeywords(doc);
 			String actores = escribirJSON.getActores(doc);
+			String descripcion = escribirJSON.getDescipcion(doc);
 			System.out.println(pelicula[i]);
 			System.out.println(titulo);
 			System.out.println(año);
 			System.out.println(GenerosYKeyWords[0]);
 			System.out.println(GenerosYKeyWords[1]);
 			System.out.println(actores);
+			System.out.println(descripcion);
 			System.out.println();
 			System.out.println();
 			
