@@ -1,4 +1,4 @@
-package PracticaMultimedia.crawler;
+package multimedia.proyecto;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -62,6 +62,8 @@ public class leerExcel {
 		 Id idIncremental = new Id();
 		 
 		for (int i = 0; i < pelicula.length; i++) {
+			
+			System.out.println(i);
 			
 	        JSONObject datosExtraidos = new JSONObject();
 	        JSONObject id = new JSONObject();

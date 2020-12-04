@@ -1,5 +1,4 @@
-
-package PracticaMultimedia.crawler;
+package multimedia.proyecto;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -27,4 +26,4 @@ public class EscribirJSON {
 	           e.printStackTrace();
 	       }
 	}
-	}
+}

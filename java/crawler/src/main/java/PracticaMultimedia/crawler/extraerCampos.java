@@ -1,4 +1,4 @@
-package PracticaMultimedia.crawler;
+package multimedia.proyecto;
 
 import java.io.IOException;
 
@@ -8,19 +8,19 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 
-
 public class extraerCampos {
 
 	
 	
 	
 	public static String getTitulo (Document doc) throws IOException {
-		String titulo = doc.select("div.title_wrapper").select("h1").text().replace('(', '-').split("-")[0];
+		String titulo = doc.select("div.title_wrapper").select("h1:not(a)").text();
+        titulo = titulo.substring(0, titulo.length()-7);
 		return titulo;
 	}
 	
 	public static int getAño (Document doc) throws IOException {
-		int año = Integer.parseInt(doc.select("div.title_wrapper").select("h1").text().replace('(', '-').split("-")[1].replace(")", ""));
+		int año = Integer.parseInt(doc.select("div.title_wrapper").select("h1").select("a").text());
 		return año;
 	}
 	
