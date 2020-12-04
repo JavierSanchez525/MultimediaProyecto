@@ -10,12 +10,9 @@ import org.jsoup.select.Elements;
 
 public class extraerCampos {
 
-	
-	
-	
 	public static String getTitulo (Document doc) throws IOException {
 		String titulo = doc.select("div.title_wrapper").select("h1:not(a)").text();
-        titulo = titulo.substring(0, titulo.length()-7);
+		titulo = titulo.substring(0, titulo.length()-7);
 		return titulo;
 	}
 	
@@ -37,10 +34,12 @@ public class extraerCampos {
 		
 		
 		String urlKeyWords = datos.select("h4:contains(Plot Keywords:) ~ nobr").select("a:contains(See All)").attr("abs:href");
+		if(urlKeyWords.length()>5) {
+			Document paginaKeyWords =  Jsoup.connect(urlKeyWords).get();
 		
-		Document paginaKeyWords =  Jsoup.connect(urlKeyWords).get();
-		// (CUIDADO YA QUE AQUELLOS KEYWORDS QUE SEAN COMPUESTOS ES DECIR QUE SEAN MAS DE UNA PALABRA SE SEPARARAN) 
-		almacen.keyWords = paginaKeyWords.select("tbody").select("div.sodatext").select("a").text();
+			// (CUIDADO YA QUE AQUELLOS KEYWORDS QUE SEAN COMPUESTOS ES DECIR QUE SEAN MAS DE UNA PALABRA SE SEPARARAN) 
+			almacen.keyWords = paginaKeyWords.select("tbody").select("div.sodatext").select("a").text();
+		}
 		//select("tbody").select("div.sodatext").
 		
 		return almacen;
@@ -48,12 +47,13 @@ public class extraerCampos {
 	
 	public static String getActores (Document doc) throws IOException { 
 		
-		
+		String actores = null;
 		Elements datos = doc.select("div#titleCast");
 		String urlActores = datos.select("div.see-more").select("a:contains(See full cast)").attr("abs:href");
-		Document paginaCast =  Jsoup.connect(urlActores).get();
-		String actores = paginaCast.select("table.cast_list").select("tbody").select("tr.odd, tr.even").select("td:not(td.ellipsis)").select(" td:not(td.character)").text();
-		
+		if(urlActores.length()>5) {
+			Document paginaCast =  Jsoup.connect(urlActores).get();
+			actores = paginaCast.select("table.cast_list").select("tbody").select("tr.odd, tr.even").select("td:not(td.ellipsis)").select(" td:not(td.character)").text();
+		}
 		
 		return actores;
 	}
