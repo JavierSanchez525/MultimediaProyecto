@@ -1,6 +1,8 @@
 package PracticaMultimedia.crawler;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFRow;
@@ -22,7 +24,7 @@ public class leerExcel {
         int rows = sheet.getLastRowNum();
         String[] urls = new String[rows];
         
-        for (int i = 1; i <= 6/*rows*/; i++) {
+        for (int i = 1; i <= rows; i++) {
         	XSSFRow row = sheet.getRow(i);
         	
         	XSSFCell url = row.getCell(1);
@@ -36,36 +38,73 @@ public class leerExcel {
 	
 	public static void main(String[] args) throws IOException, InvalidFormatException{
 		String[] pelicula = leerURLs();
-		for (int i = 0; i < 5; i++) {
+		
+		 try {
+		   		
+	           String ruta = "Listo_para_elastic\\filename.json";
+	           //String contenido = "Contenido de ejemplo";
+	          
+	           File file = new File(ruta);
+	           // Si el archivo no existe es creado
+	           
+	           if (file.exists()) {
+	        	   file.delete();
+	               
+	           }
+	           else {
+	        	   file.createNewFile();
+	           }
+	           
+	       } catch (Exception e) {
+	           e.printStackTrace();
+	       }
+		 
+		 Id idIncremental = new Id();
+		 
+		for (int i = 0; i < pelicula.length; i++) {
 			
-	        JSONObject myObject = new JSONObject();
+	        JSONObject datosExtraidos = new JSONObject();
+	        JSONObject id = new JSONObject();
+	        JSONObject operacion = new JSONObject();
 	        
 	        Document doc = Jsoup.connect(pelicula[i]).get();
-	        /*
-	        // Sacamos el titulo
-	        
-	        myObject.put("titulo",  );
-	        
-	        // Sacamos el año
-	        myObject.put("año", );
 
-			*/
-			String titulo = escribirJSON.getTitulo(doc);
-			int año = escribirJSON.getAño(doc);
-			String [] GenerosYKeyWords = new String [2];
-			GenerosYKeyWords = escribirJSON.getGenerosYKeywords(doc);
-			String actores = escribirJSON.getActores(doc);
-			String descripcion = escribirJSON.getDescipcion(doc);
-			System.out.println(pelicula[i]);
+			
+			String titulo = extraerCampos.getTitulo(doc);
+			int anio = extraerCampos.getAño(doc);
+			
+			GenerosKeyWords datos = new GenerosKeyWords();
+			String descripcion = extraerCampos.getDescipcion(doc);
+			datos.generos  = extraerCampos.getGenerosYKeywords(doc).generos;
+			datos.keyWords  = extraerCampos.getGenerosYKeywords(doc).keyWords;
+			String actores = extraerCampos.getActores(doc);
+			/*System.out.println(pelicula[i]);
 			System.out.println(titulo);
 			System.out.println(año);
-			System.out.println(GenerosYKeyWords[0]);
-			System.out.println(GenerosYKeyWords[1]);
+			for (int j = 0 ; j<datos.generos.length; j++)
+			System.out.println(datos.generos[j]);
+			System.out.println(datos.keyWords);
 			System.out.println(actores);
 			System.out.println(descripcion);
 			System.out.println();
-			System.out.println();
+			System.out.println();*/
 			
+			
+			  
+			datosExtraidos.put("anio", anio );
+			datosExtraidos.put("generos", datos.generos );
+			datosExtraidos.put("keyWords", datos.keyWords );
+			datosExtraidos.put("actores", actores );
+			datosExtraidos.put("descripcion", descripcion );
+			datosExtraidos.put("titulo", titulo );
+			id.put("id", idIncremental.incremental);
+			operacion.put("index", id);
+		    idIncremental.incremental ++;
+		   	
+		       
+		       //System.out.println(myObject);
+			EscribirJSON.escribir(datosExtraidos,operacion);
+		       
 		}	
 		
 		
