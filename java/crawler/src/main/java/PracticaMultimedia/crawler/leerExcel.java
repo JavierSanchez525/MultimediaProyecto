@@ -76,7 +76,7 @@ public class leerExcel {
 			int anio = extraerCampos.getAño(doc);
 			
 			GenerosKeyWords datos = new GenerosKeyWords();
-			String descripcion = extraerCampos.getDescipcion(doc);
+			String descripcion = extraerCampos.getDescripcion(doc);
 			datos.generos  = extraerCampos.getGenerosYKeywords(doc).generos;
 			datos.keyWords  = extraerCampos.getGenerosYKeywords(doc).keyWords;
 			String actores = extraerCampos.getActores(doc);

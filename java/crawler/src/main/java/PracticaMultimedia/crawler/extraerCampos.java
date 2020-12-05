@@ -13,12 +13,21 @@ public class extraerCampos {
 	public static String getTitulo (Document doc) throws IOException {
 		String titulo = doc.select("div.title_wrapper").select("h1:not(a)").text();
 		titulo = titulo.substring(0, titulo.length()-7);
-		return titulo;
+		if(titulo.length() > 1) {
+			return titulo;
+		}else {
+			return null;
+		}
 	}
 	
 	public static int getAño (Document doc) throws IOException {
-		int año = Integer.parseInt(doc.select("div.title_wrapper").select("h1").select("a").text());
-		return año;
+		if(doc.select("div.title_wrapper").select("h1").select("a").text().length() > 1) {
+			int año = Integer.parseInt(doc.select("div.title_wrapper").select("h1").select("a").text());
+			return año;
+		}else {
+			return 0;
+		}
+		
 	}
 	
 	public static GenerosKeyWords getGenerosYKeywords (Document doc) throws IOException { 
@@ -39,6 +48,8 @@ public class extraerCampos {
 		
 			// (CUIDADO YA QUE AQUELLOS KEYWORDS QUE SEAN COMPUESTOS ES DECIR QUE SEAN MAS DE UNA PALABRA SE SEPARARAN) 
 			almacen.keyWords = paginaKeyWords.select("tbody").select("div.sodatext").select("a").text();
+		}else {
+			almacen.keyWords = null;
 		}
 		//select("tbody").select("div.sodatext").
 		
@@ -53,13 +64,19 @@ public class extraerCampos {
 		if(urlActores.length()>5) {
 			Document paginaCast =  Jsoup.connect(urlActores).get();
 			actores = paginaCast.select("table.cast_list").select("tbody").select("tr.odd, tr.even").select("td:not(td.ellipsis)").select(" td:not(td.character)").text();
+		}else {
+			actores = null;
 		}
 		
 		return actores;
 	}
 	
-	public static String getDescipcion (Document doc) throws IOException {
+	public static String getDescripcion (Document doc) throws IOException {
 		String descripcion = doc.select("div.summary_text").text();
-		return descripcion;
+		if(descripcion.length() > 1) {
+			return descripcion;
+		}else {
+			return null;
+		}
 	}
 }
