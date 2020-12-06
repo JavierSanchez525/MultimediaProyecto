@@ -68,47 +68,43 @@ public class leerExcel {
 	        JSONObject datosExtraidos = new JSONObject();
 	        JSONObject id = new JSONObject();
 	        JSONObject operacion = new JSONObject();
-	        
-	        Document doc = Jsoup.connect(pelicula[i]).get();
-
-			
-			String titulo = extraerCampos.getTitulo(doc);
-			int anio = extraerCampos.getAño(doc);
-			
-			GenerosKeyWords datos = new GenerosKeyWords();
-			String descripcion = extraerCampos.getDescripcion(doc);
-			datos.generos  = extraerCampos.getGenerosYKeywords(doc).generos;
-			datos.keyWords  = extraerCampos.getGenerosYKeywords(doc).keyWords;
-			String actores = extraerCampos.getActores(doc);
-			/*System.out.println(pelicula[i]);
-			System.out.println(titulo);
-			System.out.println(año);
-			for (int j = 0 ; j<datos.generos.length; j++)
-			System.out.println(datos.generos[j]);
-			System.out.println(datos.keyWords);
-			System.out.println(actores);
-			System.out.println(descripcion);
-			System.out.println();
-			System.out.println();*/
-			
-			
-			  
-			datosExtraidos.put("anio", anio );
-			datosExtraidos.put("generos", datos.generos );
-			datosExtraidos.put("keyWords", datos.keyWords );
-			datosExtraidos.put("actores", actores );
-			datosExtraidos.put("descripcion", descripcion );
-			datosExtraidos.put("titulo", titulo );
-			id.put("id", idIncremental.incremental);
-			operacion.put("index", id);
-		    idIncremental.incremental ++;
-		   	
-		       
-		       //System.out.println(myObject);
-			EscribirJSON.escribir(datosExtraidos,operacion);
-		       
-		}	
-		
-		
+	        if (i!=15925) { //15925 tiene una url que da error 404 not found
+	        	Document doc = Jsoup.connect(pelicula[i]).get();
+	        	String titulo = extraerCampos.getTitulo(doc);
+				int anio = extraerCampos.getAño(doc);
+				
+				GenerosKeyWords datos = new GenerosKeyWords();
+				String descripcion = extraerCampos.getDescripcion(doc);
+				datos.generos  = extraerCampos.getGenerosYKeywords(doc).generos;
+				datos.keyWords  = extraerCampos.getGenerosYKeywords(doc).keyWords;
+				String actores = extraerCampos.getActores(doc);
+				/*System.out.println(pelicula[i]);
+				System.out.println(titulo);
+				System.out.println(año);
+				for (int j = 0 ; j<datos.generos.length; j++)
+				System.out.println(datos.generos[j]);
+				System.out.println(datos.keyWords);
+				System.out.println(actores);
+				System.out.println(descripcion);
+				System.out.println();
+				System.out.println();*/
+				
+				
+				  
+				datosExtraidos.put("anio", anio );
+				datosExtraidos.put("generos", datos.generos );
+				datosExtraidos.put("keyWords", datos.keyWords );
+				datosExtraidos.put("actores", actores );
+				datosExtraidos.put("descripcion", descripcion );
+				datosExtraidos.put("titulo", titulo );
+				id.put("id", idIncremental.incremental);
+				operacion.put("index", id);
+			    idIncremental.incremental ++;
+			   	
+			       
+			       //System.out.println(myObject);
+				EscribirJSON.escribir(datosExtraidos,operacion);
+	        }    
+		}
 	}
 }
