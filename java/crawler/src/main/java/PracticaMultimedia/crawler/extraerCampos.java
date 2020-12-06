@@ -12,7 +12,9 @@ public class extraerCampos {
 
 	public static String getTitulo (Document doc) throws IOException {
 		String titulo = doc.select("div.title_wrapper").select("h1:not(a)").text();
-		titulo = titulo.substring(0, titulo.length()-7);
+		if (titulo.length()>7) {
+			titulo = titulo.substring(0, titulo.length()-7);
+		}
 		if(titulo.length() > 1) {
 			return titulo;
 		}else {
