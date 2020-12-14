@@ -10,6 +10,7 @@ import org.jsoup.select.Elements;
 
 public class extraerCampos {
 
+	//Saca el titulo y resta los caracteres reservados para el año (7)
 	public static String getTitulo (Document doc) throws IOException {
 		String titulo = doc.select("div.title_wrapper").select("h1:not(a)").text();
 		if (titulo.length()>7) {
@@ -22,6 +23,7 @@ public class extraerCampos {
 		}
 	}
 	
+	//Saca el año del mismo campo que el titulo y lo pasa a int
 	public static int getAño (Document doc) throws IOException {
 		if(doc.select("div.title_wrapper").select("h1").select("a").text().length() > 1) {
 			int año = Integer.parseInt(doc.select("div.title_wrapper").select("h1").select("a").text());
@@ -40,7 +42,7 @@ public class extraerCampos {
 		
 		Elements datos = doc.select("div#titleStoryLine");
 		
-		//Primero obtengo los generos (SOLO OBTIENE LOS GENEROS DE LA PAGINA EN CASO DE "SEE MORE" HAY QUE CAMBIAR CODIGO)
+		//Primero obtengo los generos como un array de strings
 		almacen.generos = datos.select("h4:contains(Genres) ~ a").text().split(" ");
 		
 		
@@ -48,16 +50,16 @@ public class extraerCampos {
 		if(urlKeyWords.length()>5) {
 			Document paginaKeyWords =  Jsoup.connect(urlKeyWords).get();
 		
-			// (CUIDADO YA QUE AQUELLOS KEYWORDS QUE SEAN COMPUESTOS ES DECIR QUE SEAN MAS DE UNA PALABRA SE SEPARARAN) 
+			//Guarda las Keywords como un string
 			almacen.keyWords = paginaKeyWords.select("tbody").select("div.sodatext").select("a").text();
 		}else {
 			almacen.keyWords = null;
 		}
-		//select("tbody").select("div.sodatext").
 		
 		return almacen;
 	}
 	
+	//Guarda los actores (teniendo en cuenta el boton de "see full cast") como un string
 	public static String getActores (Document doc) throws IOException { 
 		
 		String actores = null;
@@ -73,6 +75,7 @@ public class extraerCampos {
 		return actores;
 	}
 	
+	//Guarda la descripcion en un string
 	public static String getDescripcion (Document doc) throws IOException {
 		String descripcion = doc.select("div.summary_text").text();
 		if(descripcion.length() > 1) {

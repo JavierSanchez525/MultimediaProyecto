@@ -16,7 +16,8 @@ import org.jsoup.nodes.Document;
 
 
 public class leerExcel {
-
+	
+	//Metodo que lee las URL del Excel
 	public static String[] leerURLs() throws IOException, InvalidFormatException {
         OPCPackage pkg = OPCPackage.open(new File("src\\MovieGenreIGC_v3.xlsx"));
         XSSFWorkbook wb = new XSSFWorkbook(pkg);
@@ -37,15 +38,15 @@ public class leerExcel {
     }
 	
 	public static void main(String[] args) throws IOException, InvalidFormatException{
+		
 		String[] pelicula = leerURLs();
 		
+		//Crea el archivo JSON si no existe
 		 try {
 		   		
-	           String ruta = "Listo_para_elastic\\filename.json";
-	           //String contenido = "Contenido de ejemplo";
+	           String ruta = "Listo_para_elastic\\archivoJSON.json";
 	          
 	           File file = new File(ruta);
-	           // Si el archivo no existe es creado
 	           
 	           if (file.exists()) {
 	        	   file.delete();
@@ -61,9 +62,10 @@ public class leerExcel {
 		 
 		 Id idIncremental = new Id();
 		 
+		 //Bucle que recorre todo el array de URLs y saca toda informacion de las mismas
 		for (int i = 0; i < pelicula.length; i++) {
 			
-			System.out.println(i);
+			//System.out.println(i);
 			
 	        JSONObject datosExtraidos = new JSONObject();
 	        JSONObject id = new JSONObject();
@@ -78,19 +80,7 @@ public class leerExcel {
 				datos.generos  = extraerCampos.getGenerosYKeywords(doc).generos;
 				datos.keyWords  = extraerCampos.getGenerosYKeywords(doc).keyWords;
 				String actores = extraerCampos.getActores(doc);
-				/*System.out.println(pelicula[i]);
-				System.out.println(titulo);
-				System.out.println(año);
-				for (int j = 0 ; j<datos.generos.length; j++)
-				System.out.println(datos.generos[j]);
-				System.out.println(datos.keyWords);
-				System.out.println(actores);
-				System.out.println(descripcion);
-				System.out.println();
-				System.out.println();*/
 				
-				
-				  
 				datosExtraidos.put("anio", anio );
 				datosExtraidos.put("generos", datos.generos );
 				datosExtraidos.put("keyWords", datos.keyWords );
@@ -101,8 +91,6 @@ public class leerExcel {
 				operacion.put("index", id);
 			    idIncremental.incremental ++;
 			   	
-			       
-			       //System.out.println(myObject);
 				EscribirJSON.escribir(datosExtraidos,operacion);
 	        }    
 		}

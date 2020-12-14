@@ -9,8 +9,8 @@ import org.json.JSONObject;
 public class EscribirJSON {
 	public static void escribir(JSONObject pelicula, JSONObject operacion) {
 		  try {
-		
-		FileWriter fw = new FileWriter("Listo_para_elastic\\filename.json",true);
+		//Escribe en el JSON el id de la pelicula y su informacion
+		FileWriter fw = new FileWriter("Listo_para_elastic\\archivoJSON.json",true);
         BufferedWriter bw = new BufferedWriter(fw);
        
         operacion.write(bw);
